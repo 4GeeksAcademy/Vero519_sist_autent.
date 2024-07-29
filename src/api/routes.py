@@ -54,3 +54,27 @@ def private():
     current_user = get_jwt_identity() #verifica si mi correo tiene una identidad
     print(current_user)
     return jsonify(logged_in_as=current_user), 200 #me retorna current_user= email
+
+@api.route("/register", methods=["POST"])
+# @jwt_required()
+def add_new_user():
+    # print(add_new_user)
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+
+    #cuando me llega la info del usuario, consulto a la bd si la informacion es correcta o no
+    user_query = User.query.filter_by(email=email).first() #en mi solicitud hago un filtro con email
+    if user_query is None:
+        new_user= User(
+            email=email,
+            password=password,
+            is_active= True
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        return jsonify({"msg":"Tu usuario ha sido creado"}), 201
+
+    return jsonify({"msg":"El usuario ya existe"}), 404
+

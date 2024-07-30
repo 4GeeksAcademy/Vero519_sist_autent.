@@ -3,4 +3,7 @@
 */
 body{
     font-family: fantasy;
+    background-image:url("https://img.freepik.com/vector-gratis/vector-fondo-diseno-textura-acuarela-rosa-suave-decorativo_1055-10739.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
 }

@@ -8,7 +8,7 @@ export const Profile = () => {
     }, [])
     return (
         <div className="Profile text-center mt-5">
-            <h1>Tu perfil</h1>
+            <h1>Tus recetas</h1>
             <div className="container">
             </div>
         </div>

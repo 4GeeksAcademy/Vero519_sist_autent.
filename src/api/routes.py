@@ -40,7 +40,8 @@ def login():
         return jsonify({"msg": "Bad email or password"}), 401
 
     access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
+    return jsonify({"access_token":
+    access_token,"logged":True})
 
 
 # Protect a route with jwt_required, which will kick out requests
@@ -54,6 +55,20 @@ def private():
     current_user = get_jwt_identity() #verifica si mi correo tiene una identidad
     print(current_user)
     return jsonify(logged_in_as=current_user), 200 #me retorna current_user= email
+
+@api.route("/valid_token", methods=["GET"])
+@jwt_required()
+def valid_token():
+    # Access the identity of the current user with get_jwt_identity
+    #con la identidad valida del usuario hago a User una consulta para retornar una respuesta
+    #con la informacion de usuario propiamente dicho
+    current_user = get_jwt_identity() #verifica si mi correo tiene una identidad
+    user_exist = User.query.filter_by(email = current_user).first
+    print(user_exist)
+    # print(current_user)
+    if user_exist is None:
+        return jsonify (logged = False), 404
+    return jsonify(logged = True), 200 
 
 @api.route("/register", methods=["POST"])
 # @jwt_required()
